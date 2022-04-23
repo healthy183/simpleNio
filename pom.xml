@@ -6,40 +6,46 @@
 
     <groupId>org.example</groupId>
     <artifactId>simpleNio</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>simpleNio-day1</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <junit.version>4.12</junit.version>
+        <netty-version>4.1.51.Final</netty-version>
     </properties>
 
+    <dependencyManagement>
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.squareup.okhttp3</groupId>
             <artifactId>okhttp</artifactId>
             <version>3.6.0</version>
-        </dependency>
+        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/ws.schild/jave-core -->
-        <dependency>
+        <!--<dependency>
             <groupId>ws.schild</groupId>
             <artifactId>jave-core</artifactId>
             <version>3.1.1</version>
-        </dependency>
+        </dependency>-->
         <!-- 以下依赖根据系统二选一 -->
         <!-- win系统平台的依赖 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>ws.schild</groupId>
             <artifactId>jave-nativebin-win64</artifactId>
             <version>3.1.1</version>
-        </dependency>
+        </dependency>-->
         <!-- linux系统平台的依赖 -->
-        <dependency>
+       <!-- <dependency>
             <groupId>ws.schild</groupId>
             <artifactId>jave-nativebin-linux64</artifactId>
             <version>3.1.1</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -51,9 +57,10 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.51.Final</version>
+            <version>${netty-version}</version>
         </dependency>
     </dependencies>
+    </dependencyManagement>
 
     <build>
         <finalName>${project.artifactId}</finalName>

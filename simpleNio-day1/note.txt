@@ -1,0 +1,5 @@
+博客地址
+https://blog.csdn.net/unique_perfect/article/details/115108640
+
+视频在B站搜索“黑马Java-IO模式精讲”
+https://www.bilibili.com/video/BV1gz4y1C7RK?spm_id_from=333.337.search-card.all.click
