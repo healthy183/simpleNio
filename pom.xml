@@ -10,6 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>simpleNio-day1</module>
+        <module>simpleNio-day2</module>
     </modules>
 
     <properties>
@@ -21,39 +22,12 @@
 
     <dependencyManagement>
     <dependencies>
-        <!--<dependency>
-            <groupId>com.squareup.okhttp3</groupId>
-            <artifactId>okhttp</artifactId>
-            <version>3.6.0</version>
-        </dependency>-->
-
-        <!-- https://mvnrepository.com/artifact/ws.schild/jave-core -->
-        <!--<dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-core</artifactId>
-            <version>3.1.1</version>
-        </dependency>-->
-        <!-- 以下依赖根据系统二选一 -->
-        <!-- win系统平台的依赖 -->
-       <!-- <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-nativebin-win64</artifactId>
-            <version>3.1.1</version>
-        </dependency>-->
-        <!-- linux系统平台的依赖 -->
-       <!-- <dependency>
-            <groupId>ws.schild</groupId>
-            <artifactId>jave-nativebin-linux64</artifactId>
-            <version>3.1.1</version>
-        </dependency>-->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
@@ -75,13 +49,11 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.2</version>
             </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-archetype-plugin</artifactId>
@@ -89,5 +61,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

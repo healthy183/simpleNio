@@ -1,0 +1,48 @@
+一，selector优势
+1，有可连接事件才去连接
+2，有可读事件才去读取
+3，有可写时间才去写入
+    3.1 仅限网络传输能力，channel未必时时可写，
+    一旦channel可写，会触发Selector的可写事件
+
+一个简单的服务器demo可以看SelectorServer.java
+
+
+二，消息边界
+聊天消息总是长度不一，
+buffer太长浪费资源且等待时间长
+buffer太容易粘包、半包
+
+解决方案：
+1，每次发送都是固定长度，不足则自己补全，缺点是浪费宽带；
+2，按分隔符，效率低，还要分割
+3，TLV格式(最优)，即Type类型、Length长度，Value数据
+(也就是需要消息开头用一些空间存放后面数据的长度)，例如：
+HTTP请求头中的Content-Type和Content-Length。
+类型和长度提前知道，方便分配合适buffer
+缺点是：buffer提前创建，如果内容过大影响server吞吐量
+3.1 http1.1是TLV格式
+3.2 http2.0是LTV格式
+
+按分隔符组成的demo看SelectorServerSplit
+
+三  ByteBuffer的大小分配(这里不理解)
+每个 channel 都需要记录可能被切分的消息，因为 ByteBuffer 不能被多个 channel 共同使用，因此需要为每个 channel 维护一个独立的 ByteBuffer
+ByteBuffer 不能太大，比如一个 ByteBuffer 1Mb 的话，要支持百万连接就要 1Tb 内存，因此需要设计大小可变的 ByteBuffer
+分配思路可以参考：
+1，一种思路是首先分配一个较小的 buffer，例如 4k，如果发现数据不够，再分配 8k 的 buffer，将 4k buffer 内容拷贝至 8k buffer，优点是消息连续容易处理，缺点是数据拷贝耗费性能
+参考实现 http://tutorials.jenkov.com/java-performance/resizable-array.html
+2，另一种思路是用多个数组组成 buffer，一个数组不够，把多出来的内容写入新的数组，与前面的区别是消息存储不连续解析复杂，优点是避免了拷贝引起的性能损耗
+
+
+四 服务端写入
+服务器通过buffer向通道中写入数据时，
+当前通道容量由于太小则需要多次写入，则需要注册SelectionKey.OP_WRITE
+同时判断是否有isWritable()事件
+请看SelectorServerWrite.java
+
+五，多线程并发优化服务端
+充分利用多线程CPU,分两组选择器
+1，单线程匹配一个选择器(Boss)，专门处理accept
+2，创建cpu核心数的线程(worker),每个线程都分配一个选择器，轮流处理read事件
+
